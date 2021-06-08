@@ -40,7 +40,7 @@ export const theme = {
   tabInactiveColor: colors.grey_1,
   buttonLogout: colors.idu,
   inputDisabledBackground: colors.grey_0,
-  actionBackgroundColor: colors.idu1,
+  actionBackgroundColor: colors.idu2,
   actionscircle: colors.idu9,
   listBorder: colors.grey_0,
   listTime: colors.grey_1,
@@ -59,9 +59,18 @@ export const theme = {
   // 메인 타이틀
   headerTitleBottomColor: colors.idu8,
 
-  //마켓
+  // 마켓
   marketBackground: colors.white,
   marketFont: colors.black,
   marketClickFont: colors.idu,
   marketBorder: colors.grey_0,
+
+  // 상세 화면
+  profileImageColor: colors.idu8,
+
+  // 댓글
+  commentIdColor: colors.grey_1,
+
+  // Line Color
+  greyBottomLine: "#eceff1",
 };

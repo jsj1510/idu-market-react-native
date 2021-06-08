@@ -41,13 +41,19 @@ const ItemContentText = styled.Text`
   color: ${({ theme }) => theme.marketFont};
 `;
 
+const Hit = styled.Text`
+  position: absolute;
+  right: 5px;
+`;
+
 const Item = ({
   hitSlop,
   onPress,
   imgUrl,
   itemTitle,
-  studentId,
+  nickname,
   commentCount,
+  hit,
 }) => {
   return (
     <Container hitSlop={hitSlop} onPress={onPress}>
@@ -55,11 +61,12 @@ const Item = ({
       <ItemTitle>{itemTitle}</ItemTitle>
       <ItemContent>
         <MaterialIcons name="person-outline" size={16} color="black" />
-        <ItemContentText>{studentId}</ItemContentText>
+        <ItemContentText>{nickname}</ItemContentText>
       </ItemContent>
       <ItemContent>
         <FontAwesome5 name="comment-dots" size={16} color="black" />
         <ItemContentText>{commentCount}</ItemContentText>
+        <Hit>조회수 {hit}</Hit>
       </ItemContent>
     </Container>
   );

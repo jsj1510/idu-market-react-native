@@ -2,15 +2,18 @@ import Main from "./Main";
 
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
-import FindId from "./auth/FindId";
-import FindPw from "./auth/FindPw";
+import Find from "./auth/Find";
 
 import Profile from "./profiles/Profile";
+import PurchaseList from "./profiles/PurchaseList";
+import SaleList from "./profiles/SaleList";
+import ProfileUpdate from "./profiles/ProfileUpdate";
+import Inquiry from "./profiles/Inquiry";
 
-import Markets from "./boards/read-all/Markets";
+import Market from "./boards/read-all/Market";
 import NoticeBoard from "./boards/read-all/NoticeBoard";
 import FreeBoard from "./boards/read-all/FreeBoard";
-import ViewDetail from "./boards/read-detail/ViewDetail";
+import DetailView from "./boards/read-detail/DetailView";
 import PostWrite from "./boards/write/PostWrite";
 
 export {
@@ -20,9 +23,12 @@ export {
   NoticeBoard,
   FreeBoard,
   Profile,
-  FindId,
-  FindPw,
-  Markets,
-  ViewDetail,
+  Find,
+  Market,
+  DetailView,
   PostWrite,
+  PurchaseList,
+  SaleList,
+  ProfileUpdate,
+  Inquiry,
 };

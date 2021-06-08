@@ -13,13 +13,29 @@ const isEmpty = function (value) {
   }
 };
 
-export const getItemFromAsync = (user) => {
-  if (isEmpty(user)) {
+export const setItemToAsync = (student, item) => {
+  if (isEmpty(student)) {
     throw Error("Storage Name is empty");
   }
 
   return new Promise((resolve, reject) => {
-    AsyncStorage.getItem(user, (err, result) => {
+    AsyncStorage.setItem(student, item, (error) => {
+      if (error) {
+        reject(error);
+      }
+
+      resolve(true);
+    });
+  });
+};
+
+export const getItemFromAsync = (student) => {
+  if (isEmpty(student)) {
+    throw Error("Storage Name is empty");
+  }
+
+  return new Promise((resolve, reject) => {
+    AsyncStorage.getItem(student, (err, result) => {
       if (err) {
         reject(err);
       }
@@ -28,23 +44,7 @@ export const getItemFromAsync = (user) => {
         resolve(null);
       }
 
-      resolve(JSON.stringify(result));
-    });
-  });
-};
-
-export const setItemToAsync = (storageName, item) => {
-  if (isEmpty(storageName)) {
-    throw Error("Storage Name is empty");
-  }
-
-  return new Promise((resolve, reject) => {
-    AsyncStorage.setItem(storageName, item, (error) => {
-      if (error) {
-        reject(error);
-      }
-
-      resolve(true);
+      resolve(result);
     });
   });
 };

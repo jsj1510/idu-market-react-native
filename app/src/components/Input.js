@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 
 const Container = styled.View`
   flex-direction: column;
-  width: 100%;
+  width: 90%;
   margin: 10px 0;
 `;
 const Label = styled.Text`

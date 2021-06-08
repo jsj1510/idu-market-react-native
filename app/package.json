@@ -11,14 +11,16 @@
     "@react-native-async-storage/async-storage": "^1.13.0",
     "@react-native-community/cameraroll": "^4.0.4",
     "@react-native-community/masked-view": "0.1.10",
+    "@react-native-picker/picker": "1.9.11",
     "@react-navigation/bottom-tabs": "^5.11.9",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
     "axios": "^0.21.1",
     "expo": "^41.0.0",
-    "expo-app-loading": "^1.0.1",
+    "expo-app-loading": "^1.0.3",
     "expo-font": "^9.1.0",
     "expo-image-picker": "^10.0.0",
+    "expo-media-library": "~12.0.2",
     "expo-status-bar": "~1.0.3",
     "firebase": "^8.3.3",
     "moment": "^2.29.1",
@@ -29,6 +31,7 @@
     "react-native-gesture-handler": "~1.8.0",
     "react-native-image-crop-picker": "^0.36.0",
     "react-native-image-picker": "^3.5.0",
+    "react-native-image-slider-box": "^1.0.12",
     "react-native-keyboard-aware-scroll-view": "^0.9.3",
     "react-native-multi-selectbox": "^1.4.9",
     "react-native-picker-select": "^8.0.4",
@@ -38,12 +41,13 @@
     "react-native-selectbox": "^0.1.2",
     "react-native-svg": "11.0.0",
     "react-native-web": "~0.13.12",
+    "react-native-webview": "11.2.3",
     "styled-components": "^5.2.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"
   },
-  "proxy": "http://13.125.55.135:9800",
+  "proxy": "https://idu-market.shop:9800",
   "private": true,
   "rnpm": {
     "assets": [

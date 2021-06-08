@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components/native";
 import { ScrollView } from "react-native";
 
 import { MarketContainer } from "../components";
 import { LinearContainer } from "../components";
+import { ReadyContext } from "../contexts";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -15,6 +16,37 @@ const Container = styled.SafeAreaView`
 `;
 
 const Main = ({ navigation }) => {
+  const { readyDispatch } = useContext(ReadyContext);
+
+  useEffect(() => {
+    readyDispatch.notReady();
+  }, []);
+
+  const _handleNoticeBoard = () => {
+    readyDispatch.notReady();
+    navigation.navigate("NoticeBoard");
+  };
+  const _handleBookMarket = () => {
+    readyDispatch.notReady();
+    navigation.navigate("Market", {
+      category: "book",
+    });
+  };
+
+  const _handleDeviceMarket = () => {
+    readyDispatch.notReady();
+    navigation.navigate("Market", {
+      category: "device",
+    });
+  };
+
+  const _handleClothesMarket = () => {
+    readyDispatch.notReady();
+    navigation.navigate("Market", {
+      category: "clothes",
+    });
+  };
+
   return (
     <Container>
       <ScrollView style={{ flex: 1, width: "100%" }}>
@@ -23,44 +55,32 @@ const Main = ({ navigation }) => {
           topicTitle={"📌 공지"}
           topicFontSize={26}
           hitSlop={10}
-          topicOnPress={() => navigation.navigate("Markets")}
-          itemOnPress={() => navigation.navigate("ViewDetail")}
+          topicOnPress={_handleNoticeBoard}
+          itemOnPress={() => navigation.navigate("DetailView")}
         />
         <MarketContainer
           category={"book"}
           topicTitle={"📚 교재"}
           topicFontSize={26}
           hitSlop={10}
-          topicOnPress={() =>
-            navigation.navigate("Markets", {
-              category: "book",
-            })
-          }
-          itemOnPress={() => navigation.navigate("ViewDetail")}
+          topicOnPress={_handleBookMarket}
+          itemOnPress={() => navigation.navigate("DetailView")}
         />
         <MarketContainer
           category={"device"}
           topicTitle={"💻 IT기기"}
           topicFontSize={26}
           hitSlop={10}
-          topicOnPress={() =>
-            navigation.navigate("Markets", {
-              category: "device",
-            })
-          }
-          itemOnPress={() => navigation.navigate("ViewDetail")}
+          topicOnPress={_handleDeviceMarket}
+          itemOnPress={() => navigation.navigate("DetailView")}
         />
         <MarketContainer
           category={"clothes"}
           topicTitle={"🧶 의류"}
           topicFontSize={26}
           hitSlop={10}
-          topicOnPress={() =>
-            navigation.navigate("Markets", {
-              category: "clothes",
-            })
-          }
-          itemOnPress={() => navigation.navigate("ViewDetail")}
+          topicOnPress={_handleClothesMarket}
+          itemOnPress={() => navigation.navigate("DetailView")}
         />
       </ScrollView>
     </Container>

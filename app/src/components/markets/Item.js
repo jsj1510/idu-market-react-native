@@ -1,14 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled, { ThemeContext } from "styled-components/native";
 import { MaterialIcons, FontAwesome5 } from "@expo/vector-icons";
 
 const Container = styled.View`
   margin-vertical: 8;
+  background-color: ${({ theme }) => theme.background};
 `;
 const ItemContainer = styled.TouchableOpacity`
   border-bottom-width: 1px;
   border-color: ${({ theme }) => theme.listBorder};
-  padding: 10px 10px 15px 10px;
+  padding: 5px 10px 15px 10px;
   flex-direction: row;
 `;
 const ItemTextContainer = styled.View`
@@ -17,7 +18,7 @@ const ItemTextContainer = styled.View`
 `;
 const ItemRowContainer = styled.View`
   flex: 1;
-  padding-top: 10px;
+  padding-top: 5px;
   flex-direction: row;
   width: 100%;
 `;
@@ -34,7 +35,6 @@ const ItemComment = styled.Text`
   color: ${({ theme }) => theme.listTime};
 `;
 const ItemStudent = styled.Text`
-  padding-top: 3px;
   padding-left: 3px;
 `;
 const StatusText = styled.Text`
@@ -57,7 +57,7 @@ const ImageContanier = styled.Image`
 
 const Item = React.memo(
   // 같은내용이 리렌더링되는것을 막아준다.
-  ({ item }) => {
+  ({ item, navigation, nickname, category, boardNum }) => {
     const theme = useContext(ThemeContext);
 
     const changeStatus = ({ item }) => {
@@ -66,15 +66,16 @@ const Item = React.memo(
       if (item.status === 2) return "판매완료";
     };
 
+    const _handleDetailViewPress = () => {
+      navigation.navigate("DetailView", {
+        boardNum: `${boardNum}`,
+        category: `${category}`,
+      });
+    };
+
     return (
       <Container>
-        <ItemContainer
-          onPress={() =>
-            navigation.navigate("ViewDetail", {
-              board: item,
-            })
-          }
-        >
+        <ItemContainer onPress={_handleDetailViewPress}>
           <ImageContanier source={{ uri: item.thumbnail }} resizeMode="cover" />
           <ItemTextContainer>
             <ItemRowContainer>
@@ -83,7 +84,7 @@ const Item = React.memo(
             </ItemRowContainer>
             <ItemRowContainer>
               <MaterialIcons name="person" size={24} color={theme.listIcon} />
-              <ItemStudent>{item.nickname}</ItemStudent>
+              <ItemStudent>{nickname}</ItemStudent>
             </ItemRowContainer>
             <ItemRowContainer>
               <MaterialIcons name="payment" size={25} />
@@ -92,6 +93,7 @@ const Item = React.memo(
             <ItemRowContainer>
               <FontAwesome5 name="comment-dots" size={22} color="black" />
               <ItemComment>{item.commentCount}</ItemComment>
+              <ItemStudent>조회수 {item.hit}</ItemStudent>
               <ItemTime>{item.inDate}</ItemTime>
             </ItemRowContainer>
           </ItemTextContainer>

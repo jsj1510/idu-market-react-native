@@ -33,21 +33,23 @@ const ItemContent = styled.View`
 
 const ItemContentText = styled.Text`
   font-size: 16px;
+  padding-left: 5px;
   color: ${({ theme }) => theme.marketFont};
 `;
 
-const Item = ({ hitSlop, onPress, itemTitle, studentId, commentCount }) => {
+const Item = ({ hitSlop, onPress, itemTitle, nickname, commentCount, hit }) => {
   return (
     <Container hitSlop={hitSlop} onPress={onPress}>
       <ItemTitle>{itemTitle}</ItemTitle>
       <ItemContentBox>
         <ItemContent isLeft={1}>
-          <MaterialIcons name="person-outline" size={16} color="black" />
-          <ItemContentText>{studentId}</ItemContentText>
+          <MaterialIcons name="person-outline" size={20} color="black" />
+          <ItemContentText>{nickname}</ItemContentText>
         </ItemContent>
         <ItemContent isLeft={0}>
-          <FontAwesome5 name="comment-dots" size={16} color="black" />
+          <FontAwesome5 name="comment-dots" size={20} color="black" />
           <ItemContentText>{commentCount}</ItemContentText>
+          <ItemContentText>조회수 {hit}</ItemContentText>
         </ItemContent>
       </ItemContentBox>
     </Container>

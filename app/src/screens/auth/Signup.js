@@ -4,7 +4,7 @@ import SelectBox from "react-native-multi-selectbox";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import styled from "styled-components/native";
 
-import { ProgressContext, UserContext } from "../../contexts";
+import { ProgressContext, StudentContext } from "../../contexts";
 import { Button, Input } from "../../components";
 import {
   validateEmail,
@@ -14,113 +14,7 @@ import {
   checkPassword,
   checkName,
 } from "../../utils/common";
-
-const major = [
-  {
-    item: "비서학과",
-    value: "1",
-  },
-  {
-    item: "관광서비스경영학과",
-    value: "2",
-  },
-  {
-    item: "휴먼사회복지학과",
-    value: "3",
-  },
-  {
-    item: "비지니스영어과",
-    value: "4",
-  },
-  {
-    item: "비즈니스중국어과",
-    value: "5",
-  },
-  {
-    item: "비지니스일본어과",
-    value: "6",
-  },
-  {
-    item: "세무회계학과",
-    value: "7",
-  },
-  {
-    item: "글로벌항공서비스학과",
-    value: "8",
-  },
-  {
-    item: "건축학과",
-    value: "9",
-  },
-  {
-    item: "토목공학과",
-    value: "10",
-  },
-  {
-    item: "실내건축과",
-    value: "11",
-  },
-  {
-    item: "디지털산업디자인학과",
-    value: "12",
-  },
-  {
-    item: "시각디자인과",
-    value: "13",
-  },
-  {
-    item: "주얼리디자인학과",
-    value: "14",
-  },
-  {
-    item: "멀티미디어디자인학과",
-    value: "15",
-  },
-  {
-    item: "정보통신공학과",
-    value: "16",
-  },
-  {
-    item: "리빙세라믹디자인학과",
-    value: "17",
-  },
-  {
-    item: "게임/vr디자인학과",
-    value: "18",
-  },
-  {
-    item: "방송영상미디어학과",
-    value: "19",
-  },
-  {
-    item: "방송뷰티학과",
-    value: "20",
-  },
-  {
-    item: "기계자동화학과",
-    value: "21",
-  },
-  {
-    item: "컴퓨터전자공학과",
-    value: "22",
-  },
-  {
-    item: "산업경영공학과",
-    value: "23",
-  },
-  {
-    item: "컴퓨터소프트웨어학과",
-    value: "24",
-  },
-  {
-    item: "메카트로닉스공학과",
-    value: "25",
-  },
-  {
-    item: "융합기계공학과",
-    value: "26",
-  },
-];
+import major from "../../utils/majors";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -148,7 +42,7 @@ const ErrorText = styled.Text`
 
 function Signup() {
   const { spinner } = useContext(ProgressContext);
-  const { dispatch } = useContext(UserContext);
+  const { dispatch } = useContext(StudentContext);
 
   const [selectedMajor, setSelectedMajor] = useState({});
   const [student, setStudent] = useState("");
@@ -172,7 +66,7 @@ function Signup() {
     if (didmountRef.current) {
       let _errorMessage = "";
       if (!checkStudent(student)) {
-        _errorMessage = "학번을 제대로 입력하세요";
+        _errorMessage = "아이디를 제대로 입력하세요";
       } else if (!checkName(name)) {
         _errorMessage = "공백없이 한글로만 입력해주세요";
       } else if (!checkNickname(nickname)) {
@@ -220,7 +114,7 @@ function Signup() {
       };
 
       let response = await fetch(
-        "http://13.125.55.135:9800/api/student",
+        "https://idu-market.shop:9800/api/student",
         config
       );
       let json = await response.json();
@@ -242,17 +136,15 @@ function Signup() {
   }
 
   return (
-    // 셀렉트박스는 스크롤뷰, 리스트에 중첩되어 들어가면 안되기때문에
-    //키보드웨어스크롤뷰 밖으로 빼줬다.
     <Containers>
       <KeyboardAwareScrollView extraScrollHeight={30}>
         <Container>
           <Input
-            label="학번"
+            label="아이디"
             value={student}
             onChangeText={(text) => setStudent(removeWhitespace(text))}
             onSubmitEditing={() => nameRef.current.focus()}
-            placeholder="학번"
+            placeholder="아이디"
             returnKeyType="next"
           />
           <SelectBox

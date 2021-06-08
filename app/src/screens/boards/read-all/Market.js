@@ -2,12 +2,13 @@ import React, { useContext, useState, useEffect } from "react";
 import FAB from "react-native-fab";
 import { FlatList } from "react-native-gesture-handler";
 import styled from "styled-components/native";
+import { Alert } from "react-native";
 
 import AppLoding from "expo-app-loading";
 import { MaterialIcons } from "@expo/vector-icons";
 
-import { ProgressContext } from "../../../contexts";
-import Item from "../../../components/Markets/Item";
+import { ProgressContext, ReadyContext } from "../../../contexts";
+import Item from "../../../components/markets/Item";
 
 const Container = styled.SafeAreaView`
   flex: 1;
@@ -15,24 +16,26 @@ const Container = styled.SafeAreaView`
 `;
 
 function Board({ route, navigation }) {
-  const [isReady, setIsReady] = useState(false);
   const [boards, setBoards] = useState([]);
 
   const { spinner } = useContext(ProgressContext);
+  const { isReady, readyDispatch } = useContext(ReadyContext);
+
+  const { category } = route.params;
+
   const _loadBoards = async () => {
     try {
       spinner.start();
-
-      const { category } = route.params;
 
       const config = {
         method: "GET",
         headers: {
           Accept: "application/json",
+          "Content-Type": "application/json",
         },
       };
       const response = await fetch(
-        `http://13.125.55.135:9800/api/boards/${category}`,
+        `https://idu-market.shop:9800/api/boards/${category}`,
         config
       );
       const json = await response.json();
@@ -44,13 +47,6 @@ function Board({ route, navigation }) {
     }
   };
 
-  useEffect(() => {
-    _loadBoards();
-  }, []);
-
-  const _handleItemPress = (params) => {
-    navigation.navigate("ViewDetail", params);
-  };
   const _handleWritePress = (params) => {
     navigation.navigate("PostWrite", params);
   };
@@ -61,7 +57,13 @@ function Board({ route, navigation }) {
         keyExtractor={(item) => `${item.num}`}
         data={boards}
         renderItem={({ item }) => (
-          <Item item={item} onPress={_handleItemPress} />
+          <Item
+            item={item}
+            navigation={navigation}
+            category={category}
+            boardNum={item.num}
+            nickname={item.nickname}
+          />
         )}
         windowSize={3} // 렌더링 되는양을 조절
       />
@@ -76,7 +78,7 @@ function Board({ route, navigation }) {
   ) : (
     <AppLoding
       startAsync={_loadBoards}
-      onFinish={() => setIsReady(true)}
+      onFinish={() => readyDispatch.ready()}
       onError={console.error}
     />
   );
