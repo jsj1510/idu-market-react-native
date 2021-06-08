@@ -130,10 +130,10 @@ function DetailView({ route }) {
           data={comments}
           renderItem={({ item }) => (
             <Item
-              item={item}
-              id={isId}
-              category={category}
-              boardNum={boardNum}
+            item={item}
+            id={isId}
+            category={category}
+            boardNum={boardNum}
             />
           )}
           windowSize={3} //렌더링 되는양을 조절
