@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import styled, { ThemeContext } from "styled-components/native";
-import { Alert } from "react-native";
+import { Alert, Text } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 
 import { ProgressContext, ReadyContext } from "../../../../contexts";
@@ -51,10 +51,22 @@ const CommentId = styled.Text`
   color: ${({ theme }) => theme.commentIdColor};
 `;
 
+const UpdateButtonContainer = styled.View`
+  /* width: 85%; */
+  /* justify-content: flex-end; */
+  flex-direction: row;
+  padding-right: 12px;
+`;
+
+const UpdateBtn = styled.TouchableOpacity`
+  background-color: ${({ theme }) => theme.boardsButton};
+  margin: 5px;
+  padding: 5px;
+  border-radius: 10px;
+`;
+
 const TimeBox = styled.View`
-  flex: 1;
-  align-items: flex-end;
-  width: 100%;
+  align-items: flex-start;
   padding-right: 12px;
 `;
 
@@ -107,6 +119,7 @@ const InputButton = styled.TouchableOpacity`
 const Item = React.memo(({ item, id, category, boardNum }) => {
   const [reply, setReply] = useState("");
   const [disabled, setDisabled] = useState(true);
+  const [isUpdate, setUpdate] = useState(false);
 
   const { readyDispatch } = useContext(ReadyContext);
   const { spinner } = useContext(ProgressContext);
@@ -119,10 +132,22 @@ const Item = React.memo(({ item, id, category, boardNum }) => {
     .replace(/<br \/>/g, "\n")
     .replace(/<\/p>/g, "\n");
 
+  const _handleReplyUpdateButton = () => {
+    console.log(item.num)
+    setUpdate(true);
+  }
+
   const _handleSuccessCommentPost = (json) => {
     readyDispatch.notReady();
-    Alert.alert("댓글이 등록되었습니다.");
+    Alert.alert("정상적으로 등록 되었습니다.");
   };
+
+  const _handleSuccessUpdate = (json) => {
+    readyDispatch.notReady();
+    Alert.alert("정상적으로 수정 되었습니다.");
+  };
+
+  
 
   const _handleReplyPost = async () => {
     try {
@@ -144,11 +169,41 @@ const Item = React.memo(({ item, id, category, boardNum }) => {
         `https://idu-market.shop:9800/api/boards/${category}/${boardNum}/${item.groupNum}`,
         config
       );
-
+      
       let json = await response.json();
       json.success ? _handleSuccessCommentPost(json) : Alert.alert(json.msg);
     } catch (e) {
       Alert.alert("답글 등록 실패", e.message);
+    } finally {
+      spinner.stop();
+    }
+  };
+
+  const _handleReplyUpdate = async () => {
+    try {
+      spinner.start();
+
+      const config = {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          studentId: id,
+          content: reply,
+        }),
+      };
+
+      let response = await fetch(
+        `https://idu-market.shop:9800/api/boards/${category}/${boardNum}/${item.num}`,
+        config
+      );
+      
+      let json = await response.json();
+      json.success ? _handleSuccessUpdate(json) : Alert.alert(json.msg);
+    } catch (e) {
+      Alert.alert("답글 수정 실패", e.message);
     } finally {
       spinner.stop();
     }
@@ -171,12 +226,42 @@ const Item = React.memo(({ item, id, category, boardNum }) => {
             }}
           />
           <CommentId>{item.nickname}</CommentId>
-          <TimeBox>
-            <Time>{item.inDate}</Time>
-          </TimeBox>
+          {item.studentId === id ? (
+            <UpdateButtonContainer>
+              <UpdateBtn onPress={_handleReplyUpdateButton}>
+                <Text style={{ color: "#fff" }}>수정</Text>
+              </UpdateBtn>
+              
+              <UpdateBtn>
+                <Text style={{ color: "#fff" }}>삭제</Text>
+              </UpdateBtn>
+            </UpdateButtonContainer>
+           ) : (
+            <></>
+           )}
         </CommentLabel>
-
+        
         <CommentDescription>{content}</CommentDescription>
+        <TimeBox>
+          <Time>{item.inDate}</Time>
+        </TimeBox>
+        {isUpdate ? (
+          <>
+            <ReplyInput>
+              <InputComment
+                onChangeText={_handleReplyChange}
+                placeholder="답글을 입력해주세요"
+                returnKeyType="done"
+              />
+              <InputButton onPress={_handleReplyUpdate} disabled={disabled}>
+                <MaterialIcons name="send" size={13} color={"#fff"} />
+              </InputButton>
+            </ReplyInput>
+          </>
+        ) : (
+          <></>
+          )
+        }
       </CommentItems>
     </ReplyContainer>
   ) : (
@@ -189,12 +274,25 @@ const Item = React.memo(({ item, id, category, boardNum }) => {
             }}
           />
           <CommentId>{item.nickname}</CommentId>
-          <TimeBox>
-            <Time>{item.inDate}</Time>
-          </TimeBox>
+          {item.studentId === id ? (
+            <UpdateButtonContainer>
+              <UpdateBtn onPress={_handleReplyUpdateButton}>
+                <Text style={{ color: "#fff" }}>수정</Text>
+              </UpdateBtn>
+              <UpdateBtn>
+                <Text style={{ color: "#fff" }}>삭제</Text>
+              </UpdateBtn>
+            </UpdateButtonContainer>
+           ) : (
+            <></>
+           )}
         </CommentLabel>
         <CommentDescription>{content}</CommentDescription>
+        <TimeBox>
+          <Time>{item.inDate}</Time>
+        </TimeBox>
       </CommentItems>
+      
       {id ? (
         <>
           <ReplyInput>

@@ -2,8 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { Alert, Text } from "react-native";
 import styled, { ThemeContext } from "styled-components/native";
 import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
-import { WebView } from "react-native-webview";
-import AppLoading from "expo-app-loading";
 
 import { getItemFromAsync } from "../../../../utils/AsyncStorage";
 import { ProgressContext, ReadyContext } from "../../../../contexts";
@@ -31,7 +29,7 @@ const NameBox = styled.View`
   margin-left: 5px;
 `;
 
-const PostBtn = styled.TouchableOpacity`
+const UpdateBtn = styled.TouchableOpacity`
   background-color: ${({ theme }) => theme.boardsButton};
   margin: 5px;
   padding: 5px;
@@ -158,12 +156,12 @@ const Post = ({
           </NameBox>
           {studentId === id ? (
             <>
-              <PostBtn>
+              <UpdateBtn>
                 <Text style={{ color: "#fff" }}>수정</Text>
-              </PostBtn>
-              <PostBtn>
+              </UpdateBtn>
+              <UpdateBtn>
                 <Text style={{ color: "#fff" }}>삭제</Text>
-              </PostBtn>
+              </UpdateBtn>
             </>
           ) : (
             <></>
